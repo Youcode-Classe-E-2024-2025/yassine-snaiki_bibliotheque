@@ -14,11 +14,16 @@
         <!-- Book Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             @foreach($books as $book)
-                <div class="group relative bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl">
-                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200">
+                <div class="group relative bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl {{ $book->user_id ? 'opacity-60' : '' }}">
+                    <div class=" w-full overflow-hidden rounded-t-lg bg-gray-200">
                         <img src="{{ $book->image }}" 
                              alt="{{ $book->title }}" 
-                             class="h-[150px] w-full object-cover object-center">
+                             class="h-[150px] w-full object-cover object-center ">
+                        @if($book->user_id)
+                            <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                                <span class="px-3 py-1 text-sm font-medium text-white bg-gray-800 rounded-full">Reserved</span>
+                            </div>
+                        @endif
                     </div>
                     <div class="p-4">
                         <h3 class="text-lg font-semibold text-gray-900 mb-1">
