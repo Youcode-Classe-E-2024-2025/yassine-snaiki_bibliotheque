@@ -12,19 +12,22 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
-        ]);         
+        ]);
 
-      if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        if (Auth::user()->role === 'admin') {
-            return redirect()->intended('/dashboard'); 
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            if (Auth::user()->role === 'admin') {
+                return redirect()->intended('/dashboard'); 
+            }
+            return redirect()->intended('/'); 
         }
-        return redirect()->intended('/'); 
-    }
+        
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
     
 
